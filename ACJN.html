@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Associação Oliveira de Taekwondo - Academia Taekwondo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary: #af0000;
+            --secondary: #c50000;
+            --dark: #1a1a1a;
+            --darker: #0d0d0d;
+            --accent: #ffd700;
+            --text: #ffffff;
+            --text-dark: #333333;
+            --border: rgba(176, 0, 0, 0.653);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--dark) 0%, #1f0d0d 100%);
+            border-bottom: 3px solid var(--primary);
+            backdrop-filter: blur(10px);
+        }
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+        }
+        .logo span {
+            color: var(--primary);
+        }
+        .logo.is-active {
+            transform: scale(0.98);
+        }
+        .nav-toggle {
+            display: none;
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--text);
+            padding: 0.75rem 1rem;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        .navbar.open nav {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            margin-left: 2.5rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+        nav a:hover::after,
+        nav a.active::after {
+            width: 100%;
+        }
+        nav a:hover {
+            color: var(--primary);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .hero {
+            background-color: #000;
+            background-image: url("./img/ini.png");
+            background-size: auto auto;
+            background-position: center center;
+            background-repeat: no-repeat;
+            width: 100%;
+            min-height: 100vh;
+            padding: 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(107, 15, 15, 0.18), transparent);
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-30px); }
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        .hero h1 span {
+            color: var(--primary);
+        }
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: #ffffff;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            box-shadow: 0 5px 20px rgba(107, 15, 15, 0.35);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(107, 15, 15, 0.5);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--primary);
+        }
+        .btn-secondary:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        section {
+            padding: 4rem 0;
+        }
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        .section-title {
+            color: var(--primary);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+        #sobre {
+            background: linear-gradient(135deg, #111111 0%, #1a1a1a 100%);
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+            padding: 2.5rem;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+        }
+        .about-content h3 {
+            font-size: 2.3rem;
+            margin-bottom: 1.6rem;
+            color: var(--primary);
+            line-height: 1.1;
+        }
+        .about-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .about-content li {
+            font-size: 1.2rem;
+            padding: 1rem 0;
+            padding-left: 2.4rem;
+            position: relative;
+            color: #d3d3d3;
+            line-height: 1.8;
+        }
+        .about-content li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .about-image {
+            background-color: #ffffff;
+            background-image: url("./img/liga.jpeg");
+            background-size: contain;
+            background-position: center center;
+            background-repeat: no-repeat;
+            padding: 1rem;
+            border-radius: 24px;
+            min-height: 420px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            font-size: 1.25rem;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 12px 30px rgb(0, 0, 0);
+            border: 1px solid rgb(0, 0, 0);
+        }
+        #horarios {
+            background: #0d0d0d;
+        }
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        .schedule-card {
+            background: linear-gradient(135deg, #2a0a0a 0%, #1a1a1a 100%);
+            border-left: 4px solid var(--primary);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+        .schedule-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        .schedule-card p {
+            color: #ccc;
+            margin-bottom: 0.5rem;
+        }
+        #galeria {
+            background: #1a1a1a;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            height: 300px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(107, 15, 15, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        .category-page {
+            display: none;
+            padding: 4rem 0;
+        }
+        .category-page.active {
+            display: block;
+        }
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .media-card {
+            background: linear-gradient(135deg, #2a0a0a 0%, #1a1a1a 100%);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .media-thumb {
+            background: #111;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #fff;
+            overflow: hidden;
+        }
+        .media-thumb img,
+        .media-thumb video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .media-thumb video {
+            background: #000;
+        }
+        .media-info {
+            padding: 1rem;
+        }
+        .media-info h4,
+        .media-info p {
+            margin: 0;
+            color: #ccc;
+        }
+        .media-info p {
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+            color: #ddd;
+        }
+        .category-description {
+            color: #ddd;
+            margin-bottom: 1.5rem;
+        }
+        #cadastro {
+            background: #0d0d0d;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #2a0a0a 0%, #1a1a1a 100%);
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.9rem;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            background: #111111;
+            color: var(--text);
+            font-family: inherit;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+        .form-group select {
+            background: #111111;
+        }
+        .form-group option {
+            background: #111111;
+            color: var(--text);
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(107, 15, 15, 0.18);
+        }
+        #mensalidades {
+            background: #1a1a1a;
+        }
+        .payment-section {
+            background: linear-gradient(135deg, #2a0a0a 0%, #1a1a1a 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+        .payment-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .payment-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        .payment-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .payment-card p {
+            color: #ccc;
+        }
+        .payment-status {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        .status-active {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid #22c55e;
+            color: #86efac;
+        }
+        .status-warning {
+            background: rgba(251, 191, 36, 0.2);
+            border: 1px solid #fbbf24;
+            color: #fef08a;
+        }
+        .status-expired {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+        }
+        .notification-form {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        #endereco {
+            background: #0d0d0d;
+        }
+        .address-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+        .address-info h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+        .address-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .address-item:last-child {
+            border-bottom: none;
+        }
+        .address-item strong {
+            color: var(--primary);
+        }
+        .address-item p {
+            color: #ccc;
+            margin: 0.5rem 0 0 0;
+        }
+        .map-container {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 2px;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 400px;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        footer {
+            background: var(--darker);
+            border-top: 3px solid var(--primary);
+            padding: 2rem 0;
+            text-align: center;
+            color: #999;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: var(--dark);
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            animation: slideIn 0.3s ease;
+            z-index: 3000;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @media (max-width: 768px) {
+            .navbar {
+                justify-content: space-between;
+            }
+            .nav-toggle {
+                display: inline-flex;
+            }
+            nav {
+                display: none;
+                width: 100%;
+                margin-top: 1rem;
+            }
+            nav a {
+                margin: 0.75rem 0;
+            }
+            .hero {
+                min-height: auto;
+                padding: 4rem 1rem;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .cta-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            .cta-buttons .btn {
+                width: 100%;
+            }
+            .about-grid,
+            .address-container,
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-container,
+            .payment-section,
+            .notification-form {
+                padding: 1.5rem;
+            }
+            .payment-section {
+                padding: 1.5rem;
+            }
+            section {
+                padding: 2.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div id="logoTrigger" class="logo" style="text-decoration: none; cursor: pointer;">
+                Associação <span>Oliveira</span>
+            </div>
+            <button class="nav-toggle" id="navToggle">Menu</button>
+            <nav id="mainNav">
+                <a href="#inicio" class="nav-link active">Início</a>
+                <a href="#sobre" class="nav-link">Sobre</a>
+                <a href="#horarios" class="nav-link">Horários</a>
+                <a href="#galeria" class="nav-link">Galeria</a>
+                <a href="#cadastro" class="nav-link">Cadastro</a>
+                <a href="#mensalidades" class="nav-link">Mensalidades</a>
+                <a href="#endereco" class="nav-link">Endereço</a>
+            </nav>
+        </div>
+    </header>
+
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Bem-vindo à <span>Associação Oliveira</span></h1>
+            <p>Transforme seu corpo, fortaleça sua mente e conquiste novas alturas</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary" onclick="document.getElementById('cadastro').scrollIntoView()">Cadastre-se Agora</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('sobre').scrollIntoView()">Saiba Mais</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="sobre" class="container">
+        <h2>Sobre a <span style="color: var(--primary);">Associação Oliveira</span></h2>
+        <div class="about-grid">
+            <div class="about-content">
+                <h3>Por que escolher a Associação Oliveira?</h3>
+                <ul>
+                    <li>Professora certificada e experiente</li>
+                    <li>Programas para todas as idades</li>
+                    <li>Filosofia baseada em disciplina e respeito</li>
+                    <li>Infraestrutura moderna e segura</li>
+                    <li>Acompanhamento individual do progresso</li>
+                    <li>Filiados a Liga Nacional de Taekwondo</li>
+                </ul>
+            </div>
+            <div class="about-image">
+            </div>
+        </div>
+    </section>
+
+    <section id="horarios">
+        <div class="container">
+            <h2>Nossos <span style="color: var(--primary);">Horários</span></h2>
+            <div class="schedule-grid">
+                <div class="schedule-card">
+                    <h3>Infantil (5-11 anos)</h3>
+                    <p><strong>Segunda, Quarta e Sexta:</strong> 19:00 - 20:00</p>
+                </div>
+                <div class="schedule-card">
+                    <h3>Adolescentes (12-18 anos)</h3>
+                    <p><strong>Segunda, Quarta e Sexta:</strong> 20:00 - 21:00</p>
+                </div>
+                <div class="schedule-card">
+                    <h3>Adultos (18+ anos)</h3>
+                    <p><strong>Segunda, Quarta e Sexta:</strong> 20:00 - 21:00</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="galeria">
+        <div class="container">
+            <h2>Nossa <span style="color: var(--primary);">Galeria</span></h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" style="background: linear-gradient(135deg, #6b0f0f, #9b2b2b);" onclick="openCategoryPage('infantil')" role="button" tabindex="0">
+                    <div class="gallery-overlay">📸 Treino Infantil</div>
+                </div>
+                <div class="gallery-item" style="background: linear-gradient(135deg, #9b2b2b, #6b0f0f);" onclick="openCategoryPage('competicao')" role="button" tabindex="0">
+                    <div class="gallery-overlay">📸 Competição</div>
+                </div>
+                <div class="gallery-item" style="background: linear-gradient(135deg, #6b0f0f, #5b0b0b);" onclick="openCategoryPage('exame')" role="button" tabindex="0">
+                    <div class="gallery-overlay">📸 Exame de faixa</div>
+                </div>
+                <div class="gallery-item" style="background: linear-gradient(135deg, #5b0b0b, #6b0f0f);" onclick="openCategoryPage('adultos')" role="button" tabindex="0">
+                    <div class="gallery-overlay">📸 Treino Adolescentes/Adultos</div>
+                </div>
+                <div class="gallery-item" style="background: linear-gradient(135deg, #6b0f0f, #9b2b2b);" onclick="openCategoryPage('eventos')" role="button" tabindex="0">
+                    <div class="gallery-overlay">📸 Eventos Sociais</div>
+                </div>
+                <div class="gallery-item" style="background: linear-gradient(135deg, #9b2b2b, #5b0b0b);" onclick="openCategoryPage('cerimonia')" role="button" tabindex="0">
+                    <div class="gallery-overlay">📸 Cerimônia</div>
+                </div>
+                <div class="gallery-item" style="background: linear-gradient(135deg, #9b2b2b, #6b0f0f);" onclick="openCategoryPage('premiacoes')" role="button" tabindex="0">
+                    <div class="gallery-overlay">🏆 Premiações</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="categoria-infantil" class="category-page">
+        <div class="container">
+            <div class="category-header">
+                <div>
+                    <h2>Treino Infantil</h2>
+                    <p class="category-description">Fotos e vídeos do treino infantil com data e hora.</p>
+                </div>
+                <button class="btn btn-secondary" onclick="closeCategoryPage()">← Voltar à Galeria</button>
+            </div>
+            <div class="media-grid" id="album-infantil"></div>
+        </div>
+    </section>
+
+    <section id="categoria-competicao" class="category-page">
+        <div class="container">
+            <div class="category-header">
+                <div>
+                    <h2>Competição</h2>
+                    <p class="category-description">Registro de vídeos e fotos da participação em competições.</p>
+                </div>
+                <button class="btn btn-secondary" onclick="closeCategoryPage()">← Voltar à Galeria</button>
+            </div>
+            <div class="media-grid" id="album-competicao"></div>
+        </div>
+    </section>
+
+    <section id="categoria-exame" class="category-page">
+        <div class="container">
+            <div class="category-header">
+                <div>
+                    <h2>Exame de Faixa</h2>
+                    <p class="category-description">Fotos e vídeos dos exames de faixa e testes de graduação.</p>
+                </div>
+                <button class="btn btn-secondary" onclick="closeCategoryPage()">← Voltar à Galeria</button>
+            </div>
+            <div class="media-grid" id="album-exame"></div>
+        </div>
+    </section>
+
+    <section id="categoria-adultos" class="category-page">
+        <div class="container">
+            <div class="category-header">
+                <div>
+                    <h2>Treino Adolescentes/Adultos</h2>
+                    <p class="category-description">Fotos e vídeos dos treinos de adolescentes e adultos.</p>
+                </div>
+                <button class="btn btn-secondary" onclick="closeCategoryPage()">← Voltar à Galeria</button>
+            </div>
+            <div class="media-grid" id="album-adultos"></div>
+        </div>
+    </section>
+
+    <section id="categoria-eventos" class="category-page">
+        <div class="container">
+            <div class="category-header">
+                <div>
+                    <h2>Eventos Sociais</h2>
+                    <p class="category-description">Fotos e vídeos dos eventos sociais da academia.</p>
+                </div>
+                <button class="btn btn-secondary" onclick="closeCategoryPage()">← Voltar à Galeria</button>
+            </div>
+            <div class="media-grid" id="album-eventos"></div>
+        </div>
+    </section>
+
+    <section id="categoria-cerimonia" class="category-page">
+        <div class="container">
+            <div class="category-header">
+                <div>
+                    <h2>Cerimônia</h2>
+                    <p class="category-description">Galeria com fotos e vídeos das cerimônias especiais.</p>
+                </div>
+                <button class="btn btn-secondary" onclick="closeCategoryPage()">← Voltar à Galeria</button>
+            </div>
+            <div class="media-grid" id="album-cerimonia"></div>
+        </div>
+    </section>
+
+    <section id="categoria-premiacoes" class="category-page">
+        <div class="container">
+            <div class="category-header">
+                <div>
+                    <h2>Premiações</h2>
+                    <p class="category-description">Fotos de premiações e conquistas da equipe.</p>
+                </div>
+                <button class="btn btn-secondary" onclick="closeCategoryPage()">← Voltar à Galeria</button>
+            </div>
+            <div class="media-grid" id="album-premiacoes"></div>
+        </div>
+    </section>
+
+    <section id="cadastro">
+        <div class="container">
+            <h2>Faça seu <span style="color: var(--primary);">Cadastro</span></h2>
+            <div class="form-container">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="name">Nome Completo *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Telefone/WhatsApp *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Idade *</label>
+                        <input type="number" id="age" name="age" min="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Categoria *</label>
+                        <select id="category" name="category" required>
+                            <option value="">Selecione...</option>
+                            <option value="infantil">Infantil (5-11 anos)</option>
+                            <option value="adolescente">Adolescente (12-17 anos)</option>
+                            <option value="adulto">Adulto (18+ anos)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="experience">Experiência Prévia *</label>
+                        <select id="experience" name="experience" required>
+                            <option value="">Selecione...</option>
+                            <option value="nenhuma">Nenhuma</option>
+                            <option value="iniciante">Iniciante</option>
+                            <option value="intermediario">Intermediário</option>
+                            <option value="avancado">Avançado</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="mensalidades">
+        <div class="container">
+            <h2>Sistema de <span style="color: var(--primary);">Mensalidades</span></h2>
+            <div class="payment-section">
+                <h3 style="color: var(--primary); margin-bottom: 1.5rem;">Planos e Valores</h3>
+                <div class="payment-info">
+                    <div class="payment-card">
+                        <h4>Infantil</h4>
+                        <p style="font-size: 1.5rem; color: var(--accent); margin: 0.5rem 0;">R$ 100,00</p>
+                        <p>Mensal</p>
+                    </div>
+                    <div class="payment-card">
+                        <h4>Adolescente</h4>
+                        <p style="font-size: 1.5rem; color: var(--accent); margin: 0.5rem 0;">R$ 100,00</p>
+                        <p>Mensal</p>
+                    </div>
+                    <div class="payment-card">
+                        <h4>Adulto</h4>
+                        <p style="font-size: 1.5rem; color: var(--accent); margin: 0.5rem 0;">R$ 100,00</p>
+                        <p>Mensal</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-section">
+                <h3 style="color: var(--primary); margin-bottom: 1.5rem;">Acompanhe sua Mensalidade</h3>
+                
+                <div id="studentStatus" class="payment-status">
+                    Nenhum aluno carregado. Insira seus dados abaixo.
+                </div>
+
+                <div class="notification-form">
+                    <div class="form-group">
+                        <label for="studentName">Nome do Aluno</label>
+                        <input type="text" id="studentName" placeholder="Digite seu nome">
+                    </div>
+                    <div class="form-group">
+                        <label for="studentEmail">Email</label>
+                        <input type="email" id="studentEmail" placeholder="seu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="studentPhone">WhatsApp</label>
+                        <input type="tel" id="studentPhone" placeholder="(92) 99999-9999">
+                    </div>
+                    <div class="form-group">
+                        <label for="dueDate">Data de Vencimento</label>
+                        <input type="date" id="dueDate">
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="checkPaymentStatus()">Verificar Status</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="endereco">
+        <div class="container">
+            <h2>Nos <span style="color: var(--primary);">Visite</span></h2>
+            <div class="address-container">
+                <div class="address-info">
+                    <h3>Localização</h3>
+                    <div class="address-item">
+                        <strong>📍 Endereço:</strong>
+                        <p>Manaus, AM - Brasil</p>
+                    </div>
+                    <div class="address-item">
+                        <strong>📞 Telefone / WhatsApp:</strong>
+                        <p><a href="https://wa.me/559291925621" target="_blank" rel="noopener noreferrer" style="color: var(--accent);">+55 92 9192-5621</a></p>
+                    </div>
+                    <div class="address-item">
+                        <strong>📧 Email:</strong>
+                        <p><a href="mailto:jaynaraoliveira996@gmail.com" style="color: var(--accent);">jaynaraoliveira996@gmail.com</a></p>
+                    </div>
+                    <div class="address-item">
+                        <strong>📷 Instagram:</strong>
+                        <p><a href="https://www.instagram.com/oliveira.tkd?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" style="color: var(--accent);">@oliveira.tkd</a></p>
+                    </div>
+                    <div class="address-item">
+                        <strong>🎵 TikTok:</strong>
+                        <p><a href="https://www.tiktok.com/@associao.oliveira?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer" style="color: var(--accent);">@associao.oliveira</a></p>
+                    </div>
+                    <div class="address-item">
+                        <strong>▶️ YouTube:</strong>
+                        <p><a href="https://www.youtube.com/@associacaooliveira8091" target="_blank" rel="noopener noreferrer" style="color: var(--accent);">@associacaooliveira8091</a></p>
+                    </div>
+                    <div class="address-item">
+                        <strong>🕐 Horário de Atendimento:</strong>
+                        <p>Atendimento apenas durante os treinos ou pelo WhatsApp</p>
+                    </div>
+                </div>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3973.207999999999!2d-59.9491783!3d-3.0242777!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x926c19a7d2a6d75b%3A0xa10f38b435379311!2sAssociation%20Oliveira%20de%20Taekwondo!5e0!3m2!1spt-BR!2sbr!4v1687001234567" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; Desde 2022 Associação Oliveira de Taekwondo. Todos os direitos reservados. | Desenvolvido por @KkClay_</p>
+    </footer>
+
+    <script>
+        // Navegação suave
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        const adminRegistrationsKey = 'kkclay_admin_registrations';
+
+        function getAdminRegistrations() {
+            const raw = localStorage.getItem(adminRegistrationsKey);
+            return raw ? JSON.parse(raw) : [];
+        }
+
+        function saveAdminRegistration(entry) {
+            const registrations = getAdminRegistrations();
+            registrations.unshift(entry);
+            localStorage.setItem(adminRegistrationsKey, JSON.stringify(registrations));
+        }
+
+        function addMonths(date, months) {
+            const result = new Date(date);
+            const day = result.getDate();
+            result.setMonth(result.getMonth() + months);
+            if (result.getDate() !== day) {
+                result.setDate(0);
+            }
+            return result;
+        }
+
+        function getDefaultDueDate() {
+            const due = addMonths(new Date(), 1);
+            return due.toISOString().slice(0, 10);
+        }
+
+        function setDefaultDueDate() {
+            const dueInput = document.getElementById('dueDate');
+            if (!dueInput) return;
+            const defaultDate = getDefaultDueDate();
+            if (!dueInput.value) {
+                dueInput.value = defaultDate;
+            }
+            dueInput.max = defaultDate;
+        }
+
+        document.addEventListener('DOMContentLoaded', setDefaultDueDate);
+
+        const logoTrigger = document.getElementById('logoTrigger');
+        let logoClickCount = 0;
+        let logoClickTimer;
+
+        if (logoTrigger) {
+            logoTrigger.addEventListener('click', function () {
+                logoClickCount += 1;
+                logoTrigger.classList.add('is-active');
+
+                clearTimeout(logoClickTimer);
+                logoClickTimer = setTimeout(() => {
+                    logoClickCount = 0;
+                    logoTrigger.classList.remove('is-active');
+                }, 300);
+
+                if (logoClickCount === 2) {
+                    clearTimeout(logoClickTimer);
+                    logoClickCount = 0;
+                    logoTrigger.classList.remove('is-active');
+                    window.open('PAINELACJN.html', '_blank', 'noopener,noreferrer');
+                }
+            });
+        }
+
+        function validateEmail(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        }
+
+        function validatePhone(phone) {
+            const digits = phone.replace(/\D/g, '');
+            return digits.length >= 10 && digits.length <= 13;
+        }
+
+        function validateRegistrationForm(data) {
+            if (!data.name) {
+                showToast('O nome é obrigatório.');
+                return false;
+            }
+            if (!data.email || !validateEmail(data.email)) {
+                showToast('Informe um email válido.');
+                return false;
+            }
+            if (!data.phone || !validatePhone(data.phone)) {
+                showToast('Informe um telefone/WhatsApp válido.');
+                return false;
+            }
+            if (!data.age || Number(data.age) < 5 || Number(data.age) > 120) {
+                showToast('Informe uma idade válida (5-120 anos).');
+                return false;
+            }
+            if (!data.category) {
+                showToast('Selecione uma categoria.');
+                return false;
+            }
+            if (!data.experience) {
+                showToast('Selecione o nível de experiência.');
+                return false;
+            }
+            return true;
+        }
+
+        // Formulário de cadastro
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const age = document.getElementById('age').value.trim();
+            const category = document.getElementById('category').value;
+            const experience = document.getElementById('experience').value;
+            const dueDate = getDefaultDueDate();
+
+            const registration = {
+                name,
+                email,
+                phone,
+                age,
+                category,
+                experience,
+                dueDate,
+                createdAt: new Date().toISOString()
+            };
+
+            if (!validateRegistrationForm(registration)) {
+                return;
+            }
+
+            saveAdminRegistration(registration);
+            showToast(`Bem-vindo, ${name}! Seu cadastro foi realizado com sucesso e enviado ao painel de admin. Clique aqui para abrir o painel de admin.`, () => {
+                window.open('PAINELACJN.html', '_blank');
+            });
+            this.reset();
+        });
+
+        // Verificar status de mensalidade
+        function checkPaymentStatus() {
+            const name = document.getElementById('studentName').value;
+            const email = document.getElementById('studentEmail').value;
+            const phone = document.getElementById('studentPhone').value;
+            const dueDate = document.getElementById('dueDate').value;
+
+            if (!name || !email || !phone || !dueDate) {
+                showToast('Por favor, preencha todos os campos!');
+                return;
+            }
+
+            const [year, month, day] = dueDate.split('-').map(Number);
+            const due = new Date(year, month - 1, day);
+            const today = new Date();
+            const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const dueMidnight = new Date(due.getFullYear(), due.getMonth(), due.getDate());
+            const maxDueDate = addMonths(todayMidnight, 1);
+            if (dueMidnight > maxDueDate) {
+                showToast('A data de vencimento deve ser no máximo 1 mês à frente.');
+                return;
+            }
+            const daysLeft = Math.round((dueMidnight - todayMidnight) / (1000 * 60 * 60 * 24));
+            const dueLabel = due.toLocaleDateString('pt-BR');
+
+            let statusHTML = '';
+            let statusClass = '';
+
+            if (daysLeft < 0) {
+                statusClass = 'status-expired';
+                statusHTML = `❌ MENSALIDADE VENCIDA - ${Math.abs(daysLeft)} dias em atraso<br><small>Vencimento: ${dueLabel}</small>`;
+            } else if (daysLeft === 0) {
+                statusClass = 'status-warning';
+                statusHTML = `⚠️ Vence hoje<br><small>Vencimento: ${dueLabel}</small>`;
+            } else if (daysLeft <= 5) {
+                statusClass = 'status-warning';
+                statusHTML = `⚠️ ATENÇÃO - Vence em ${daysLeft} dias<br><small>Vencimento: ${dueLabel}</small>`;
+            } else {
+                statusClass = 'status-active';
+                statusHTML = `✅ MENSALIDADE ATIVA - Vence em ${daysLeft} dias<br><small>Vencimento: ${dueLabel}</small>`;
+            }
+
+            document.getElementById('studentStatus').innerHTML = `<div class="payment-status ${statusClass}">${statusHTML}</div>`;
+        }
+
+
+        // Toast notification
+        function showToast(message, onClick) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            if (typeof onClick === 'function') {
+                toast.style.cursor = 'pointer';
+                toast.addEventListener('click', () => {
+                    onClick();
+                });
+            }
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 4000);
+        }
+
+        const galleryAlbums = {
+            infantil: {
+                title: 'Treino Infantil',
+                folder: 'treino infantil',
+                description: 'Fotos e vídeos do treino infantil com data e hora.',
+                files: [
+                    'treino infantil (1).jpg',
+                    'treino infantil (1).mp4',
+                    'treino infantil (2).jpg',
+                    'treino infantil (2).mp4',
+                    'treino infantil (3).jpg',
+                    'treino infantil (3).mp4',
+                    'treino infantil (4).jpg',
+                    'treino infantil (4).mp4',
+                    'treino infantil (5).jpg',
+                    'treino infantil (5).mp4',
+                    'treino infantil (6).jpg',
+                    'treino infantil (6).mp4',
+                    'treino infantil (7).jpg',
+                    'treino infantil (7).mp4',
+                    'treino infantil (8).mp4',
+                    'treino infantil (9).mp4',
+                    'treino infantil (10).mp4',
+                    'treino infantil (11).mp4',
+                    'treino infantil (12).mp4',
+                    'treino infantil (13).mp4',
+                    'treino infantil (14).mp4',
+                    'treino infantil (15).mp4',
+                    'treino infantil (16).mp4',
+                    'treino infantil (17).mp4',
+                    'treino infantil (18).mp4',
+                    'treino infantil (19).mp4',
+                    'treino infantil (20).mp4',
+                    'treino infantil (21).mp4',
+                    'treino infantil (22).mp4',
+                    'treino infantil (23).mp4',
+                    'treino infantil (24).mp4',
+                    'treino infantil (25).mp4',
+                    'treino infantil (26).mp4',
+                    'treino infantil (27).mp4'
+                ]
+            },
+            competicao: {
+                title: 'Competição',
+                folder: 'competição',
+                description: 'Registro de vídeos e fotos da participação em competições.',
+                files: [
+                    'competiçao.jpg',
+                    'competiçao (2).jpg',
+                    'competiçao.mp4'
+                ]
+            },
+            exame: {
+                title: 'Exame de Faixa',
+                folder: 'exame de faixa',
+                description: 'Fotos e vídeos dos exames de faixa e testes de graduação.',
+                files: [
+                    'exame de faixa (1).jpg',
+                    'exame de faixa (1).mp4',
+                    'exame de faixa (2).mp4',
+                    'exame de faixa (3).mp4',
+                    'exame de faixa (4).jpg',
+                    'exame de faixa (4).mp4',
+                    'exame de faixa (5).jpg',
+                    'exame de faixa (5).mp4',
+                    'exame de faixa (6).jpg',
+                    'exame de faixa (7).jpg',
+                    'exame de faixa (8).jpg',
+                    'exame de faixa (9).jpg',
+                    'exame de faixa (10).jpg',
+                    'exame de faixa (11).jpg'
+                ]
+            },
+            adultos: {
+                title: 'Treino Adolescentes/Adultos',
+                folder: 'treino ad-adultos',
+                description: 'Fotos e vídeos dos treinos de adolescentes e adultos.',
+                files: [
+                    'treino adolecente adulto (1).jpg',
+                    'treino adolecente adulto (1).mp4',
+                    'treino adolecente adulto (2).jpg',
+                    'treino adolecente adulto (2).mp4',
+                    'treino adolecente adulto (3).jpg',
+                    'treino adolecente adulto (3).mp4',
+                    'treino adolecente adulto (4).jpg',
+                    'treino adolecente adulto (4).mp4',
+                    'treino adolecente adulto (5).jpg',
+                    'treino adolecente adulto (5).mp4',
+                    'treino adolecente adulto (6).jpg',
+                    'treino adolecente adulto (6).mp4',
+                    'treino adolecente adulto (7).jpg',
+                    'treino adolecente adulto (7).mp4',
+                    'treino adolecente adulto (8).jpg',
+                    'treino adolecente adulto (8).mp4',
+                    'treino adolecente adulto (9).jpg',
+                    'treino adolecente adulto (9).mp4',
+                    'treino adolecente adulto (10).mp4',
+                    'treino adolecente adulto (11).mp4'
+                ]
+            },
+            eventos: {
+                title: 'Eventos Sociais',
+                folder: 'eventos- convites',
+                description: 'Fotos e vídeos dos eventos sociais da academia.',
+                files: [
+                    'eventos (1).jpg',
+                    'eventos (2).jpg',
+                    'eventos (3).jpg',
+                    'eventos (4).mp4',
+                    'eventos (5).mp4',
+                    'eventos (6).mp4'
+                ]
+            },
+            cerimonia: {
+                title: 'Cerimônia',
+                folder: 'cerimonial',
+                description: 'Galeria com fotos e vídeos das cerimônias especiais.',
+                files: [
+                    'Cerimônia.mp4'
+                ]
+            },
+            premiacoes: {
+                title: 'Premiações',
+                folder: 'premiaçoes',
+                description: 'Fotos de premiações e conquistas da equipe.',
+                files: [
+                    'premiações (1).jpg',
+                    'premiações (2).jpg',
+                    'premiações (3).jpg',
+                    'premiações (4).jpg',
+                    'premiações (5).jpg',
+                    'premiações (6).jpg',
+                    'premiações (7).jpg',
+                    'premiações (8).jpg',
+                    'premiações (9).jpg',
+                    'premiações (10).jpg',
+                    'premiações (11).jpg',
+                    'premiações (12).jpg',
+                    'premiações (13).jpg',
+                    'premiações (14).jpg',
+                    'premiações (15).jpg',
+                    'premiações (16).jpg',
+                    'premiações (17).jpg',
+                    'premiações (18).jpg',
+                    'premiações (19).jpg',
+                    'premiações (20).jpg',
+                    'premiações (21).jpg',
+                    'premiações (22).jpg'
+                ]
+            }
+        };
+
+        function createMediaCard(fileName, albumTitle, folder) {
+            const isVideo = /\.(mp4|webm)$/i.test(fileName);
+            const src = encodeURI(`./img/${folder}/${fileName}`);
+            const mediaElement = isVideo
+                ? `<video controls muted playsinline preload="metadata" src="${src}"></video>`
+                : `<img src="${src}" alt="${albumTitle}" />`;
+
+            return `
+                <div class="media-card">
+                    <div class="media-thumb">${mediaElement}</div>
+                    <div class="media-info">
+                        <p>${albumTitle}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderGalleryAlbums() {
+            Object.keys(galleryAlbums).forEach(category => {
+                const album = galleryAlbums[category];
+                const container = document.getElementById(`album-${category}`);
+                if (!container) return;
+
+                if (!album.files || !album.files.length) {
+                    container.innerHTML = `<div class="media-card"><div class="media-thumb" style="display:flex;align-items:center;justify-content:center;">Sem imagens disponíveis</div></div>`;
+                    return;
+                }
+
+                container.innerHTML = album.files.map(fileName => createMediaCard(fileName, album.title, album.folder)).join('');
+            });
+        }
+
+        renderGalleryAlbums();
+
+        function openCategoryPage(category) {
+            document.getElementById('galeria').style.display = 'none';
+            const categoryIds = ['categoria-infantil', 'categoria-competicao', 'categoria-exame', 'categoria-adultos', 'categoria-eventos', 'categoria-cerimonia', 'categoria-premiacoes'];
+            categoryIds.forEach(id => document.getElementById(id).classList.remove('active'));
+
+            const targetId = `categoria-${category}`;
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function closeCategoryPage() {
+            const categoryIds = ['categoria-infantil', 'categoria-competicao', 'categoria-exame', 'categoria-adultos', 'categoria-eventos', 'categoria-cerimonia', 'categoria-premiacoes'];
+            categoryIds.forEach(id => {
+                const section = document.getElementById(id);
+                if (section) {
+                    section.classList.remove('active');
+                }
+            });
+            const gallerySection = document.getElementById('galeria');
+            if (gallerySection) {
+                gallerySection.style.display = 'block';
+                gallerySection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Atualizar navegação ativa ao scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 300) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('nav a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

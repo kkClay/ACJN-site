@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel de Administração - KkClay</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary: #af0000;
+            --secondary: #c50000;
+            --dark: #111;
+            --surface: #1f1f1f;
+            --surface-alt: #222;
+            --text: #f5f5f5;
+            --text-muted: #bbb;
+            --border: rgba(255, 255, 255, 0.08);
+            --shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: radial-gradient(circle at top, rgba(175, 0, 0, 0.18), transparent 30%),
+                        linear-gradient(180deg, #090909 0%, #050505 100%);
+            color: var(--text);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: url('./img/ini.png') center/cover no-repeat;
+            opacity: 0.06;
+            pointer-events: none;
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .brand {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .brand span {
+            color: var(--primary);
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 1rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            padding: 1.75rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .card h2,
+        .card h3,
+        .card p,
+        .card label {
+            margin: 0;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 2.8vw, 3rem);
+            margin-bottom: 0.5rem;
+            line-height: 1.05;
+        }
+
+        .hero-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .overview-card {
+            padding: 1.5rem;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .overview-card strong {
+            display: block;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+            font-size: 0.95rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .overview-card span {
+            display: block;
+            font-size: 2.25rem;
+            margin-top: 0.5rem;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 760px;
+        }
+        @media (max-width: 900px) {
+            table {
+                min-width: auto;
+            }
+        }
+
+        th,
+        td {
+            padding: 1rem 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.45rem 0.8rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            letter-spacing: 0.04em;
+        }
+
+        .badge.active { background: rgba(34, 197, 94, 0.18); color: #a7f3d0; }
+        .badge.warning { background: rgba(251, 191, 36, 0.18); color: #fef08a; }
+        .badge.expired { background: rgba(239, 68, 68, 0.18); color: #fecaca; }
+
+        .form-group {
+            display: grid;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.95rem 1rem;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.85);
+            color: var(--text);
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(175, 0, 0, 0.12);
+        }
+
+        button,
+        .button {
+            border: none;
+            border-radius: 999px;
+            padding: 0.95rem 1.6rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+        }
+
+        button:hover,
+        .button:hover {
+            transform: translateY(-1px);
+        }
+
+        .button.secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .login-card {
+            max-width: 500px;
+            margin: 4rem auto 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 900px) {
+            .grid-3,
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header>
+            <div class="brand">Painel <span>Admin</span> ACJN</div>
+            <nav>
+                <a class="nav-link" href="ACJN.html" target="_blank">Abrir Site</a>
+            </nav>
+        </header>
+
+        <section id="loginSection" class="card login-card">
+            <h2 class="hero-title">Acesso de Administrador</h2>
+            <p class="hero-subtitle">Use suas credenciais para acessar o painel de controle.</p>
+
+            <div class="form-group">
+                <label for="adminPassword">Senha de Acesso</label>
+                <input type="password" id="adminPassword" placeholder="Digite a senha" />
+            </div>
+            <button id="loginButton">Entrar</button>
+            <p class="footer" style="margin-top: 1rem;">Senha padrão: <strong>Admin123</strong></p>
+        </section>
+
+        <div id="dashboard" class="hidden">
+            <section class="card">
+                <h2 class="hero-title">📊 Resumo do Painel</h2>
+                <p class="hero-subtitle">Monitore cadastros, mensalidades e notificações rapidamente.</p>
+                <div class="grid grid-3">
+                    <div class="overview-card">
+                        <strong>Cadastros Salvos</strong>
+                        <span id="totalRegistrations">0</span>
+                    </div>
+                    <div class="overview-card">
+                        <strong>Mensalidades Vencidas</strong>
+                        <span id="expiredCount">0</span>
+                    </div>
+                    <div class="overview-card">
+                        <strong>Vencem em até 5 dias</strong>
+                        <span id="warningCount">0</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;align-items:center;">
+                    <div>
+                        <h2 class="hero-title">📋 Lista de Cadastros</h2>
+                        <p class="hero-subtitle">Gerencie os alunos antigos e novos separadamente.</p>
+                    </div>
+                    <button class="button secondary" id="clearStorageButton">Limpar dados</button>
+                </div>
+                <div style="margin-top:1rem; display:flex; flex-direction:column; gap:1.5rem;">
+                    <div>
+                        <h3 style="margin-bottom:0.75rem;color:#fff;">👥 Alunos Antigos</h3>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>WhatsApp</th>
+                                        <th>Vencimento</th>
+                                        <th>Status</th>
+                                        <th>Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="oldRegistrationsTable">
+                                    <tr><td colspan="5">Nenhum aluno antigo cadastrado ainda.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="margin-bottom:0.75rem;color:#fff;">🌱 Alunos Novos</h3>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>WhatsApp</th>
+                                        <th>Vencimento</th>
+                                        <th>Status</th>
+                                        <th>Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="newRegistrationsTable">
+                                    <tr><td colspan="5">Nenhum aluno novo cadastrado ainda.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;align-items:center;">
+                    <div>
+                        <h2 class="hero-title">➕ Adicionar Cadastro</h2>
+                        <p class="hero-subtitle">Insira ou simule um novo registro para o painel.</p>
+                    </div>
+                </div>
+                <div class="grid grid-2">
+                    <div>
+                        <div class="form-group">
+                            <label for="nameInput">Nome completo</label>
+                            <input type="text" id="nameInput" placeholder="Nome do aluno" />
+                        </div>
+                        <div class="form-group">
+                            <label for="emailInput">Email</label>
+                            <input type="email" id="emailInput" placeholder="email@exemplo.com" />
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneInput">WhatsApp</label>
+                            <input type="tel" id="phoneInput" placeholder="(92) 9 9999-9999" />
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <label for="ageInput">Idade</label>
+                            <input type="number" id="ageInput" min="5" placeholder="Idade" />
+                        </div>
+                        <div class="form-group">
+                            <label for="categoryInput">Categoria</label>
+                            <select id="categoryInput">
+                                <option value="">Selecione...</option>
+                                <option value="Infantil">Infantil</option>
+                                <option value="Adolescente">Adolescente</option>
+                                <option value="Adulto">Adulto</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentTypeInput">Tipo de aluno</label>
+                            <select id="studentTypeInput">
+                                <option value="novo">Novo</option>
+                                <option value="antigo">Antigo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dueDateInput">Vencimento</label>
+                            <input type="date" id="dueDateInput" />
+                        </div>
+                    </div>
+                </div>
+                <button id="addRegistrationButton">Salvar Cadastro</button>
+            </section>
+
+            <section class="card">
+                <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;align-items:center;">
+                    <div>
+                        <h2 class="hero-title">🔔 Notificações</h2>
+                        <p class="hero-subtitle">Envie avisos aos alunos com mensalidade próxima ou vencida.</p>
+                    </div>
+                    <button class="button secondary" id="refreshButton">Atualizar dados</button>
+                </div>
+                <div class="grid grid-2">
+                    <div class="card" style="background: rgba(255, 255, 255, 0.04);">
+                        <h3 style="margin-bottom:0.75rem;color:var(--primary);">📡 Canal de Notificação</h3>
+                        <div class="form-group">
+                            <label for="notificationChannel">Enviar via:</label>
+                            <select id="notificationChannel">
+                                <option value="whatsapp">📱 WhatsApp</option>
+                                <option value="email">✉️ Email</option>
+                                <option value="ambos">📱✉️ WhatsApp + Email</option>
+                            </select>
+                        </div>
+                        <p id="pendingNotificationCount" style="color:var(--text-muted);margin-bottom:1rem;">Aguardando atualização...</p>
+                        <button id="sendNotificationsButton" class="button secondary">Enviar notificações pendentes</button>
+                        <div id="pendingListContainer" style="margin-top:1.25rem; padding:1rem; border-radius:16px; background: rgba(0,0,0,0.65); border:1px solid rgba(255,255,255,0.08);">
+                            <h4 style="margin:0 0 0.75rem; color:#fff; font-size:1rem;">Alunos pendentes</h4>
+                            <div id="pendingList" style="display:grid;gap:0.75rem; color:var(--text);"></div>
+                        </div>
+                    </div>
+                    <div class="card" style="background: rgba(255, 255, 255, 0.04);">
+                        <h3 style="margin-bottom:0.75rem;color:var(--primary);">📤 Exportar Dados</h3>
+                        <p style="color:var(--text-muted);margin-bottom:1rem;">Baixe os registros salvos como arquivo JSON.</p>
+                        <button id="exportButton" class="button secondary">Exportar JSON</button>
+                    </div>
+                    <div class="card" style="background: rgba(255, 255, 255, 0.04);">
+                        <h3 style="margin-bottom:0.75rem;color:var(--primary);">📥 Importar Dados</h3>
+                        <p style="color:var(--text-muted);margin-bottom:1rem;">Recarregue registros a partir de um arquivo JSON.</p>
+                        <input type="file" id="importFile" accept="application/json" style="width:100%;padding:0.85rem 1rem;border-radius:14px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);color:var(--text);" />
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer class="footer">Painel de Administração criado para o site KkClay. Todos os dados são armazenados localmente no navegador.</footer>
+    </div>
+
+    <script>
+        const adminPassword = 'Jainara123';
+        const loginSection = document.getElementById('loginSection');
+        const dashboard = document.getElementById('dashboard');
+        const loginButton = document.getElementById('loginButton');
+        const passwordInput = document.getElementById('adminPassword');
+
+        const registrationsKey = 'kkclay_admin_registrations';
+
+        const totalRegistrations = document.getElementById('totalRegistrations');
+        const expiredCount = document.getElementById('expiredCount');
+        const warningCount = document.getElementById('warningCount');
+        const oldRegistrationsTable = document.getElementById('oldRegistrationsTable');
+        const newRegistrationsTable = document.getElementById('newRegistrationsTable');
+
+        const clearStorageButton = document.getElementById('clearStorageButton');
+        const addRegistrationButton = document.getElementById('addRegistrationButton');
+        const exportButton = document.getElementById('exportButton');
+        const importFile = document.getElementById('importFile');
+        const refreshButton = document.getElementById('refreshButton');
+        const sendNotificationsButton = document.getElementById('sendNotificationsButton');
+        const notificationChannel = document.getElementById('notificationChannel');
+
+        const inputs = {
+            name: document.getElementById('nameInput'),
+            email: document.getElementById('emailInput'),
+            phone: document.getElementById('phoneInput'),
+            age: document.getElementById('ageInput'),
+            category: document.getElementById('categoryInput'),
+            studentType: document.getElementById('studentTypeInput'),
+            dueDate: document.getElementById('dueDateInput')
+        };
+
+        function normalizeRegistration(entry) {
+            return {
+                ...entry,
+                name: entry.name || 'Sem nome',
+                email: entry.email || '',
+                phone: entry.phone || '',
+                age: entry.age || '',
+                category: entry.category || '',
+                studentType: entry.studentType || 'novo',
+                dueDate: entry.dueDate || ''
+            };
+        }
+
+        function getRegistrations() {
+            const raw = localStorage.getItem(registrationsKey);
+            if (!raw) return [];
+
+            try {
+                const parsed = JSON.parse(raw);
+                return Array.isArray(parsed) ? parsed.map(normalizeRegistration) : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function saveRegistrations(entries) {
+            localStorage.setItem(registrationsKey, JSON.stringify(entries.map(normalizeRegistration)));
+        }
+
+        function parseDueDate(dueDate) {
+            if (!dueDate) return null;
+            if (dueDate instanceof Date) return dueDate;
+
+            const dateOnly = String(dueDate).split('T')[0];
+            const [year, month, day] = dateOnly.split('-').map(Number);
+            if (year && month && day) {
+                return new Date(year, month - 1, day);
+            }
+
+            const parsed = new Date(dueDate);
+            return Number.isNaN(parsed.getTime()) ? null : parsed;
+        }
+
+        function formatDateBR(dueDate) {
+            const parsed = parseDueDate(dueDate);
+            if (!parsed) return '—';
+            return parsed.toLocaleDateString('pt-BR');
+        }
+
+        function getDaysLeft(dueDate) {
+            const due = parseDueDate(dueDate);
+            if (!due) return null;
+
+            const today = new Date();
+            const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const dueMidnight = new Date(due.getFullYear(), due.getMonth(), due.getDate());
+            return Math.round((dueMidnight - todayMidnight) / (1000 * 60 * 60 * 24));
+        }
+
+        function formatStatus(dueDate) {
+            const diff = getDaysLeft(dueDate);
+            const dueLabel = formatDateBR(dueDate);
+
+            if (diff === null) return { label: 'Sem vencimento', type: 'warning', dueDate: dueLabel };
+            if (diff < 0) return { label: `Vencida há ${Math.abs(diff)} dia(s)`, type: 'expired', dueDate: dueLabel };
+            if (diff <= 5) return { label: `Vence em ${diff} dia(s)`, type: 'warning', dueDate: dueLabel };
+            return { label: `Ativa (${diff} dia(s))`, type: 'active', dueDate: dueLabel };
+        }
+
+        function getStudentTypeLabel(studentType) {
+            return studentType === 'antigo' ? 'Antigo' : 'Novo';
+        }
+
+        function getMonthlyValue(entry) {
+            if (entry.studentType === 'antigo' && getDaysLeft(entry.dueDate) < 0) {
+                return '100,00';
+            }
+            return entry.studentType === 'antigo' ? '80,00' : '100,00';
+        }
+
+        function getReminderMessage(entry) {
+            const dueDate = formatDateBR(entry.dueDate);
+            if (entry.studentType === 'antigo') {
+                return `Olá! ${entry.name} bom dia!\n\nGostaria de lembrá-lo que a sua mensalidade no valor de 80,00 vence hoje, ${dueDate}. Caso o pagamento não seja efetuado, automaticamente ficará em 100,00.\n\nO pagamento poderá ser feito através do pix: 92991925621 (Neon).\n\nAtenciosamente,\n\nProfª. Jainara.`;
+            }
+
+            return `Olá! ${entry.name} bom dia!\n\nGostaria de lembrá-lo que a sua mensalidade no valor de 100,00 vence hoje, ${dueDate}.\n\nO pagamento poderá ser feito através do pix: 92991925621 (Neon).\n\nAtenciosamente,\n\nProfª. Jainara.`;
+        }
+
+        function renderTable(container, entries, emptyLabel) {
+            if (!container) return;
+
+            if (entries.length === 0) {
+                container.innerHTML = `<tr><td colspan="5">Nenhum ${emptyLabel} cadastrado ainda.</td></tr>`;
+                return;
+            }
+
+            container.innerHTML = entries.map(entry => {
+                const status = formatStatus(entry.dueDate);
+                const value = getMonthlyValue(entry);
+                return `
+                    <tr>
+                        <td>${entry.name}</td>
+                        <td>${entry.phone}</td>
+                        <td>${status.dueDate}</td>
+                        <td><span class="badge ${status.type}">${status.label}</span></td>
+                        <td>
+                            <div style="display:flex;flex-direction:column;gap:0.4rem;">
+                                <span style="font-size:0.82rem;color:#ffd08a;">${getStudentTypeLabel(entry.studentType)} · ${value}</span>
+                                <button type="button" data-action="renew" data-index="${entry.index}" class="button secondary" style="padding:0.5rem 0.9rem;font-size:0.82rem;">Renovar 30 dias</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderDashboard() {
+            const registrations = getRegistrations();
+            totalRegistrations.textContent = registrations.length;
+
+            let expired = 0;
+            let warning = 0;
+
+            const indexedRegistrations = registrations.map((entry, index) => ({ ...entry, index }));
+            const newEntries = indexedRegistrations.filter(entry => entry.studentType !== 'antigo');
+            const oldEntries = indexedRegistrations.filter(entry => entry.studentType === 'antigo');
+
+            indexedRegistrations.forEach(entry => {
+                const status = formatStatus(entry.dueDate);
+                if (status.type === 'expired') expired += 1;
+                if (status.type === 'warning') warning += 1;
+            });
+
+            renderTable(oldRegistrationsTable, oldEntries, 'aluno antigo');
+            renderTable(newRegistrationsTable, newEntries, 'aluno novo');
+
+            expiredCount.textContent = expired;
+            warningCount.textContent = warning;
+            const pendingCount = document.getElementById('pendingNotificationCount');
+            if (pendingCount) {
+                pendingCount.textContent = `${warning + expired} aluno(s) com mensalidade vencida ou próxima`;
+            }
+            renderPendingList();
+        }
+
+        function renderPendingList() {
+            const pending = getPendingNotifications();
+            const container = document.getElementById('pendingList');
+            if (!container) return;
+
+            if (pending.length === 0) {
+                container.innerHTML = '<div style="padding:0.75rem 1rem; border-radius:12px; background: rgba(255,255,255,0.05); color: #ccc;">Nenhum aluno pendente no momento.</div>';
+                return;
+            }
+
+            container.innerHTML = pending.map(entry => {
+                const statusLabel = entry.status.label;
+                const icon = entry.status.type === 'expired' ? '❌' : '⚠️';
+                return `
+                    <div style="padding:0.85rem 1rem; border-radius:12px; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08);">
+                        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.75rem;">
+                            <div>
+                                <strong style="display:block;color:#fff;">${entry.name}</strong>
+                                <span style="color:var(--text-muted);font-size:0.95rem;">${entry.email} · ${entry.phone}</span>
+                                <div style="color:#cfcfcf;font-size:0.9rem;margin-top:0.2rem;">${getStudentTypeLabel(entry.studentType)} · Vencimento: ${entry.status.dueDate}</div>
+                            </div>
+                            <span style="font-size:0.9rem;">${icon} ${statusLabel}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getPendingNotifications() {
+            const registrations = getRegistrations();
+            return registrations.filter(entry => {
+                const status = formatStatus(entry.dueDate);
+                return status.type === 'warning' || status.type === 'expired';
+            }).map(entry => ({
+                ...entry,
+                status: formatStatus(entry.dueDate)
+            }));
+        }
+
+        function sendNotification(entry, channel) {
+            const message = getReminderMessage(entry);
+            const subject = 'Aviso de mensalidade - Associação Oliveira';
+
+            if (channel === 'whatsapp' || channel === 'ambos') {
+                const phone = entry.phone.replace(/[^0-9]/g, '');
+                const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+            }
+
+            if (channel === 'email' || channel === 'ambos') {
+                const mailtoUrl = `mailto:${entry.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+                window.open(mailtoUrl, '_blank');
+            }
+        }
+
+        function sendNotifications() {
+            const pending = getPendingNotifications();
+            if (pending.length === 0) {
+                showToast('Não há notificações pendentes para enviar.');
+                return;
+            }
+
+            const channel = notificationChannel.value;
+            pending.forEach((entry, index) => {
+                setTimeout(() => sendNotification(entry, channel), index * 250);
+            });
+            showToast(`Enviando ${pending.length} notificações via ${channel}.`);
+        }
+
+        function renewRegistration(index) {
+            const registrations = getRegistrations();
+            const target = registrations[index];
+            if (!target) return;
+
+            const nextRenewal = new Date();
+            nextRenewal.setDate(nextRenewal.getDate() + 30);
+            const formattedDate = `${nextRenewal.getFullYear()}-${String(nextRenewal.getMonth() + 1).padStart(2, '0')}-${String(nextRenewal.getDate()).padStart(2, '0')}`;
+
+            registrations[index] = { ...target, dueDate: formattedDate };
+            saveRegistrations(registrations);
+            renderDashboard();
+            showToast(`Mensalidade renovada para ${target.name}.`);
+        }
+
+        function syncFromStorage(event) {
+            if (event.key === registrationsKey) {
+                renderDashboard();
+                showToast('Dados do painel atualizados automaticamente.');
+            }
+        }
+
+        window.addEventListener('storage', syncFromStorage);
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.style.position = 'fixed';
+            toast.style.right = '1.5rem';
+            toast.style.bottom = '1.5rem';
+            toast.style.padding = '1rem 1.25rem';
+            toast.style.background = 'rgba(175, 0, 0, 0.95)';
+            toast.style.borderRadius = '12px';
+            toast.style.boxShadow = '0 14px 40px rgba(0,0,0,0.35)';
+            toast.style.color = '#fff';
+            toast.style.zIndex = '9999';
+            toast.style.fontFamily = 'Montserrat, sans-serif';
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3500);
+        }
+
+        function login() {
+            if (passwordInput.value === adminPassword) {
+                loginSection.classList.add('hidden');
+                dashboard.classList.remove('hidden');
+                passwordInput.value = '';
+                renderDashboard();
+                showToast('Acesso liberado. Bem-vindo ao painel!');
+            } else {
+                showToast('Senha incorreta. Tente novamente.');
+            }
+        }
+
+        function addRegistration() {
+            const name = inputs.name.value.trim();
+            const email = inputs.email.value.trim();
+            const phone = inputs.phone.value.trim();
+            const age = inputs.age.value.trim();
+            const category = inputs.category.value;
+            const studentType = inputs.studentType.value;
+            const dueDate = inputs.dueDate.value;
+
+            if (!name || !email || !phone || !age || !category || !studentType || !dueDate) {
+                showToast('Preencha todos os campos para salvar o cadastro.');
+                return;
+            }
+
+            const registrations = getRegistrations();
+            registrations.unshift({ name, email, phone, age, category, studentType, dueDate, createdAt: new Date().toISOString() });
+            saveRegistrations(registrations);
+            renderDashboard();
+            Object.values(inputs).forEach(input => input.value = '');
+            showToast('Cadastro salvo com sucesso.');
+        }
+
+        function clearData() {
+            if (!confirm('Tem certeza que deseja limpar todos os dados de cadastro?')) return;
+            localStorage.removeItem(registrationsKey);
+            renderDashboard();
+            showToast('Dados removidos com sucesso.');
+        }
+
+        function exportData() {
+            const data = getRegistrations();
+            if (data.length === 0) {
+                showToast('Não há registros para exportar.');
+                return;
+            }
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const anchor = document.createElement('a');
+            anchor.href = url;
+            anchor.download = 'kkclay_registros.json';
+            anchor.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                try {
+                    const imported = JSON.parse(reader.result);
+                    if (!Array.isArray(imported)) throw new Error('Formato inválido');
+                    saveRegistrations(imported);
+                    renderDashboard();
+                    showToast('Dados importados com sucesso.');
+                } catch (error) {
+                    showToast('Erro ao importar. Verifique o arquivo JSON.');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        document.addEventListener('click', event => {
+            const button = event.target.closest('[data-action="renew"]');
+            if (!button) return;
+
+            const index = Number(button.dataset.index);
+            if (!Number.isNaN(index)) {
+                renewRegistration(index);
+            }
+        });
+
+        loginButton.addEventListener('click', login);
+        passwordInput.addEventListener('keyup', event => {
+            if (event.key === 'Enter') login();
+        });
+        addRegistrationButton.addEventListener('click', addRegistration);
+        clearStorageButton.addEventListener('click', clearData);
+        exportButton.addEventListener('click', exportData);
+        importFile.addEventListener('change', importData);
+        refreshButton.addEventListener('click', () => {
+            renderDashboard();
+            showToast('Painel atualizado.');
+        });
+        sendNotificationsButton.addEventListener('click', sendNotifications);
+    </script>
+</body>
+</html>
